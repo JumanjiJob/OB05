@@ -8,7 +8,7 @@ pygame.display.set_caption("Тестовый проект")
 image = pygame.image.load("img/picPython1.png")
 image_rect = image.get_rect()
 
-speed = 1
+speed = 5
 
 run = True
 
@@ -27,7 +27,17 @@ while run:
     if keys[pygame.K_DOWN]:
         image_rect.y += speed
 
-    screen.fill((75,0,75))
+    # Проверка на границы окна
+    if image_rect.left < 0:
+        image_rect.left = 0
+    if image_rect.right > window_size[0]:
+        image_rect.right = window_size[0]
+    if image_rect.top < 0:
+        image_rect.top = 0
+    if image_rect.bottom > window_size[1]:
+        image_rect.bottom = window_size[1]
+
+    screen.fill((75, 0, 75))
     screen.blit(image, image_rect)
     pygame.display.flip()
 
