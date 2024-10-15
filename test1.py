@@ -10,29 +10,20 @@ pygame.display.set_caption("Тетрис")
 # Цвета
 BLACK = (0, 0, 0)
 WHITE = (255, 255, 255)
+GREEN = (0,255,0)
+RED = (255,0,0)
 
 clock = pygame.time.Clock()
 fps = 60
 
 # Параметры платформы
 paddle_width, paddle_height = 100, 40
+paddle_x = 0
+paddle_y = 0
 paddle_speed = 6
-
-# Начальная позиция платформы
-def create_new_paddle():
-    return (0, 0)  # Платформа появляется в верхней левой части экрана
 
 # Флаг остановки платформы
 platform_stopped = False
-
-# Инициализация первой платформы
-paddle_x, paddle_y = create_new_paddle()
-
-# Счетчик платформ
-paddle_count = 0
-
-# Список для сохранения предыдущих платформ
-paddles = []
 
 # Запуск основного цикла игры
 running = True
@@ -55,29 +46,13 @@ while running:
             paddle_y += paddle_speed  # Платформа движется вниз
         else:
             paddle_y = screen_height - paddle_height  # Останавливается на нижней границе
-            paddles.append((paddle_x, paddle_y))  # Добавляем остановившуюся платформу в список
-            platform_stopped = True  # Устанавливаем флаг остановки
-            paddle_count += 1  # Увеличиваем счетчик платформ
-
-    else:
-        # Если платформа остановилась, создаем новую платформу
-        paddle_x, paddle_y = create_new_paddle()
-        platform_stopped = False
+            platform_stopped = True  # Исправлено имя переменной
 
     # Очистка экрана перед каждым новым кадром
     screen.fill(BLACK)
 
-    # Рисование всех предыдущих платформ
-    for px, py in paddles:
-        pygame.draw.rect(screen, WHITE, (px, py, paddle_width, paddle_height))
-
-    # Рисование текущей движущейся платформы
+    # Рисование объектов
     pygame.draw.rect(screen, WHITE, (paddle_x, paddle_y, paddle_width, paddle_height))
-
-    # Отображение счетчика платформ
-    font = pygame.font.SysFont(None, 36)
-    count_text = font.render(f"Платформы: {paddle_count}", True, WHITE)
-    screen.blit(count_text, (10, 10))
 
     # Обновление экрана
     pygame.display.flip()
